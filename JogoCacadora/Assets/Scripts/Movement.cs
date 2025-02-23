@@ -21,6 +21,7 @@ public class Movement : MonoBehaviour
     {
         Move();
         Jump();
+        Attack();
     }
     void Move(){
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
@@ -44,7 +45,7 @@ public class Movement : MonoBehaviour
         }
     }
     void Jump(){
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown(KeyCode.Space))
         {
             if(!isJumping)
             {
@@ -53,5 +54,10 @@ public class Movement : MonoBehaviour
                 anim.SetBool("jump",true);
             }
         }
+}
+void Attack(){
+    if(Input.GetKeyDown(KeyCode.Z)){
+        anim.SetBool("attack", true);
+    }
 }
 }
