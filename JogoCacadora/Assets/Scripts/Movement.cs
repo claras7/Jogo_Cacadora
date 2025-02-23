@@ -45,7 +45,7 @@ public class Movement : MonoBehaviour
         }
     }
     void Jump(){
-        if(Input.GetButtonDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             if(!isJumping)
             {
@@ -53,11 +53,17 @@ public class Movement : MonoBehaviour
                 
                 anim.SetBool("jump",true);
             }
+            
+                
         }
+        
 }
 void Attack(){
     if(Input.GetKeyDown(KeyCode.Z)){
         anim.SetBool("attack", true);
+    }
+    else{
+        anim.SetBool("attack", false);
     }
 }
 }
