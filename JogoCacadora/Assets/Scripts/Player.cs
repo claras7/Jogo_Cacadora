@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float Speed;
     public float JumpForce;
@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour
     {
         Move();
         Jump();
-        Attack();
+        
     }
     void Move(){
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
@@ -45,25 +45,32 @@ public class Movement : MonoBehaviour
         }
     }
     void Jump(){
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetButtonDown("Jump"))
         {
             if(!isJumping)
             {
-                rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
-                
-                anim.SetBool("jump",true);
+            rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
+            anim.SetBool("jump", true);
             }
-            
+            else
+            {
+                anim.SetBool("jump", false);
+            }
                 
         }
         
 }
-void Attack(){
-    if(Input.GetKeyDown(KeyCode.Z)){
-        anim.SetBool("attack", true);
+    void OnCollisionEnter2D(Collision2D collision){
+        if(collision.gameObject.layer == 8)
+        {
+            isJumping = false;
+            anim.SetBool("jump", false);
+        }
     }
-    else{
-        anim.SetBool("attack", false);
+    void OnCollisionExit2D(Collision2D collision){
+        if(collision.gameObject.layer == 8)
+        {
+            isJumping = true;
+        }
     }
-}
 }
