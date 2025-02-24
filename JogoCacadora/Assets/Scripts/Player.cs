@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public float Speed;
     public float JumpForce;
     public bool isJumping;
+    
     private Rigidbody2D rig;
     private Animator anim;
     
@@ -29,12 +30,14 @@ public class Player : MonoBehaviour
 
         if(Input.GetAxis("Horizontal") > 0f)
         {
+        
         anim.SetBool("walk", true);
         transform.eulerAngles = new Vector3(0f,0f,0f);
         }
 
          if(Input.GetAxis("Horizontal") < 0f)
         {
+        
         anim.SetBool("walk", true);
         transform.eulerAngles = new Vector3(0f,180f,0f);
         }
@@ -44,25 +47,63 @@ public class Player : MonoBehaviour
         anim.SetBool("walk", false);
         }
     }
-    void Jump(){
-        if(Input.GetButtonDown("Jump") && !isJumping)
+    void Jump()
+{
+    if (Input.GetButtonDown("Jump"))
+    {
+        if (!isJumping) 
         {
-        rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
-        anim.SetBool("jump", true);
-        isJumping = true; 
-                
+            Debug.Log("Pulo!");
+            rig.velocity = new Vector2(rig.velocity.x, JumpForce);
+            isJumping = true;
+            
+            anim.SetBool("jump", true);
         }
         
+    }
 }
-    void OnCollisionEnter2D(Collision2D collision)
+
+// Resetar isJumping quando tocar no chão
+void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) 
+    {
+        isJumping = false;
+        anim.SetBool("jump", false);
+    }
+}
+    /*void Jump(){
+    
+        if(Input.GetButtonDown("Jump"))
+        {
+            if(!isJumping)
+            {
+                rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
+                doubleJump = true;
+                anim.SetBool("jump",true);
+            }
+            else
+            {
+                if(doubleJump)
+            {
+                rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
+                doubleJump = false;
+            }
+
+            }
+        }
+    }
+        
+
+    void OnCollisionEnter2D (Collision2D collision)
     {
         if(collision.gameObject.layer == 8)
         {
             isJumping = false;
             anim.SetBool("jump", false);
         }
-    }
-    void OnCollisionExit2D(Collision2D collision)
+    }*/
+    void OnCollisionExit2D (Collision2D collision)
     {
         if(collision.gameObject.layer == 8)
         {
@@ -70,4 +111,5 @@ public class Player : MonoBehaviour
 
         }
     }
+
 }
